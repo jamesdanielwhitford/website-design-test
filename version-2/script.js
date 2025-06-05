@@ -354,3 +354,280 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 });
+
+// Services section functionality
+    const serviceCards = document.querySelectorAll('.service-card');
+    const servicesLogo = document.querySelector('.services-logo-img');
+    
+    // Handle services logo error (fallback to text)
+    if (servicesLogo) {
+        servicesLogo.addEventListener('error', function() {
+            this.style.display = 'none';
+            const textLogo = document.createElement('div');
+            textLogo.innerHTML = 'AETHERBLOOM';
+            textLogo.style.fontWeight = '800';
+            textLogo.style.fontSize = '20px';
+            textLogo.style.color = 'var(--brand-primary)';
+            textLogo.style.letterSpacing = '1px';
+            this.parentNode.appendChild(textLogo);
+        });
+    }
+
+    // Enhanced service card interactions
+    serviceCards.forEach(card => {
+        // Enhanced hover effects
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-12px) scale(1.02)';
+            this.style.boxShadow = '0 25px 50px rgba(201, 100, 66, 0.4)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = 'none';
+        });
+
+        // Click handler for service cards
+        card.addEventListener('click', function() {
+            const serviceType = this.getAttribute('data-service');
+            showServiceDetails(serviceType);
+            
+            // Add click animation
+            this.style.transform = 'translateY(-8px) scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'translateY(-12px) scale(1.02)';
+            }, 150);
+        });
+
+        // Keyboard accessibility
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+
+        // Make cards focusable
+        card.setAttribute('tabindex', '0');
+    });
+
+    // Service details modal function
+    function showServiceDetails(serviceType) {
+        const serviceDetails = {
+            customer: {
+                title: "Customer Support Services",
+                description: "Omnichannel customer support with UK-trained teams fluent in British communication standards. We handle phone, email, chat, and social media support with 24/7 availability.",
+                features: [
+                    "24/7 Omnichannel Support",
+                    "UK Compliance & GDPR Training",
+                    "92% English Fluency Rate",
+                    "Real-time Performance Dashboards"
+                ]
+            },
+            backoffice: {
+                title: "Back Office Operations",
+                description: "Comprehensive back-office support including data entry, administrative tasks, finance operations, and HR support. All processes designed with UK compliance standards.",
+                features: [
+                    "Data Entry & Processing",
+                    "Administrative Support",
+                    "Finance & Accounting",
+                    "HR Operations Support"
+                ]
+            },
+            technical: {
+                title: "Technical Support Services",
+                description: "Tiered IT helpdesk and software support from South Africa's top STEM graduates. Expert technical assistance with UK service standards.",
+                features: [
+                    "Tiered IT Helpdesk (L1-L3)",
+                    "Software Support & Troubleshooting",
+                    "STEM Graduate Expertise",
+                    "UK Technical Standards"
+                ]
+            },
+            sales: {
+                title: "Sales Support Services",
+                description: "Comprehensive sales support including lead generation, CRM management, and appointment setting. Boost your sales pipeline with our dedicated teams.",
+                features: [
+                    "Lead Generation & Qualification",
+                    "CRM Management & Updates",
+                    "Appointment Setting",
+                    "Sales Pipeline Support"
+                ]
+            }
+        };
+
+        const service = serviceDetails[serviceType];
+        if (!service) return;
+
+        // Create modal
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        `;
+
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        `;
+
+        const featuresHtml = service.features.map(feature => 
+            `<li style="margin-bottom: 8px; color: var(--text-medium);">✓ ${feature}</li>`
+        ).join('');
+
+        modalContent.innerHTML = `
+            <button onclick="this.parentElement.parentElement.remove()" 
+                    style="position: absolute; top: 16px; right: 16px; background: none; 
+                           border: none; font-size: 24px; cursor: pointer; color: var(--text-light);">
+                ×
+            </button>
+            <h3 style="margin-bottom: 20px; color: var(--text-dark); font-size: 1.8rem;">${service.title}</h3>
+            <p style="margin-bottom: 24px; color: var(--text-medium); line-height: 1.6; font-size: 1.1rem;">
+                ${service.description}
+            </p>
+            <h4 style="margin-bottom: 16px; color: var(--brand-primary); font-size: 1.2rem;">Key Features:</h4>
+            <ul style="margin-bottom: 30px; padding-left: 0; list-style: none;">
+                ${featuresHtml}
+            </ul>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                        style="background: var(--brand-primary); color: white; border: none; 
+                               padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    Get Started
+                </button>
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                        style="background: transparent; color: var(--text-medium); border: 1px solid var(--border-light); 
+                               padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    Learn More
+                </button>
+            </div>
+        `;
+
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+
+        // Close modal with escape key
+        const handleEscape = function(e) {
+            if (e.key === 'Escape') {
+                modal.remove();
+                document.removeEventListener('keydown', handleEscape);
+            }
+        };
+        document.addEventListener('keydown', handleEscape);
+
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = 'hidden';
+        
+        // Restore body scroll when modal is removed
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    mutation.removedNodes.forEach(function(node) {
+                        if (node === modal) {
+                            document.body.style.overflow = '';
+                            observer.disconnect();
+                        }
+                    });
+                }
+            });
+        });
+        observer.observe(document.body, { childList: true });
+    }
+
+    // Services CTA button functionality
+    const servicesCTA = document.querySelector('.btn-services-cta');
+    if (servicesCTA) {
+        servicesCTA.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                // For now, show a simple contact form or navigate to contact section
+                console.log('Opening quote request...');
+                
+                // You can replace this with actual quote form logic
+                showQuoteModal();
+            }
+        });
+    }
+
+    // Simple quote modal function
+    function showQuoteModal() {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        `;
+
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+        `;
+
+        modalContent.innerHTML = `
+            <h3 style="margin-bottom: 20px; color: var(--text-dark);">Request a Quote</h3>
+            <p style="margin-bottom: 30px; color: var(--text-medium);">
+                Get a personalized quote for your BPO needs. Our team will contact you within 24 hours.
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                        style="background: var(--brand-primary); color: white; border: none; 
+                               padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    Contact Sales Team
+                </button>
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                        style="background: transparent; color: var(--text-medium); border: 1px solid var(--border-light); 
+                               padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    Close
+                </button>
+            </div>
+        `;
+
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+    }
+    
