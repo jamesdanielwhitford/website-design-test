@@ -5,6 +5,7 @@
     --brand-primary: #c96442;
     --brand-primary-hover: #b55539;
     --brand-primary-light: #e8915f;
+    --brand-primary-lighter: #ffe8d9;
     --brand-secondary: #2d4a3e;
     --brand-secondary-hover: #1f3329;
     --background-white: #ffffff;
@@ -259,6 +260,7 @@ body {
     display: block;
     text-align: left;
     flex-shrink: 0;
+    min-height: 88px; /* Set minimum height to match secondary button */
 }
 
 .btn-hero-primary:hover {
@@ -269,7 +271,7 @@ body {
 .btn-hero-secondary {
     background: white;
     color: var(--brand-primary);
-    border: 2px solid var(--brand-primary);
+    border: 2px solid var(--brand-primary-lighter); /* Using lighter orange for border */
     padding: 20px 32px;
     border-radius: 12px;
     font-size: 16px;
@@ -281,16 +283,17 @@ body {
     align-items: center;
     white-space: nowrap;
     flex-shrink: 0;
+    min-height: 88px; /* Match the primary button height */
+    justify-content: center;
 }
 
 .btn-hero-secondary:hover {
-    background: var(--brand-primary);
-    color: white;
+    background: var(--brand-primary-lighter); /* Using lighter orange for hover background */
+    color: var(--text-dark); /* Darker text on lighter background */
+    border-color: var(--brand-primary-lighter);
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(201, 100, 66, 0.3);
+    box-shadow: 0 8px 25px rgba(242, 196, 168, 0.4); /* Adjusted shadow for lighter color */
 }
-
-
 
 .btn-text {
     display: block;
@@ -381,8 +384,6 @@ body {
     background: radial-gradient(circle, rgba(201, 100, 66, 0.2) 0%, transparent 70%);
     border-radius: 50%;
 }
-
-
 
 /* Mobile Styles */
 @media (max-width: 768px) {
@@ -508,12 +509,14 @@ body {
         padding: 16px 32px;
         width: 100%;
         text-align: center;
+        min-height: auto; /* Remove min-height on mobile for better spacing */
     }
 
     .btn-hero-secondary {
         padding: 16px 32px;
         width: 100%;
         justify-content: center;
+        min-height: auto; /* Remove min-height on mobile for better spacing */
     }
 
     .hero-stats {
