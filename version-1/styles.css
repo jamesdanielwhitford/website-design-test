@@ -1,4 +1,4 @@
-/* File: styles.css */
+/* File: version-1/styles.css */
 
 /* CSS Variables for Brand Colors */
 :root {
@@ -154,6 +154,121 @@ body {
     border-radius: 2px;
 }
 
+/* Hero Section Styles */
+.hero-section {
+    background-color: var(--background-cream);
+    padding: 80px 24px 100px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto 60px auto;
+}
+
+.hero-headline {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.hero-subheadline {
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+.hero-cta-container {
+    margin-bottom: 60px;
+}
+
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.hero-cta-arrow {
+    font-size: 18px;
+    transition: transform 0.2s ease;
+}
+
+.hero-cta:hover .hero-cta-arrow {
+    transform: translateX(4px);
+}
+
+.hero-trust-line {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.hero-image-container {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 8px 16px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, var(--brand-primary-light), var(--brand-primary));
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-image-placeholder {
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-top: 80px;
+    padding-top: 60px;
+    border-top: 1px solid rgba(201, 100, 66, 0.2);
+}
+
+.hero-stat {
+    text-align: center;
+}
+
+.hero-stat-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.hero-stat-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
     .navbar {
@@ -230,6 +345,42 @@ body {
     .mobile-menu-toggle.active span:nth-child(3) {
         transform: rotate(45deg) translate(-6px, -6px);
     }
+
+    /* Hero mobile styles */
+    .hero-section {
+        padding: 60px 20px 80px 20px;
+    }
+
+    .hero-headline {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .hero-subheadline {
+        font-size: 1.1rem;
+        margin-bottom: 32px;
+    }
+
+    .hero-cta {
+        padding: 14px 28px;
+        font-size: 15px;
+    }
+
+    .hero-image-container {
+        border-radius: 16px;
+        min-height: 300px;
+    }
+
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-top: 60px;
+        padding-top: 40px;
+    }
+
+    .hero-stat-number {
+        font-size: 1.8rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -257,6 +408,20 @@ body {
 
     .navbar-brand img {
         height: 28px; /* Reduced from 32px for mobile - adjust as needed */
+    }
+
+    /* Hero small mobile styles */
+    .hero-headline {
+        font-size: 2rem;
+    }
+
+    .hero-subheadline {
+        font-size: 1rem;
+    }
+
+    .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 }
 
