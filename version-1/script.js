@@ -1,4 +1,4 @@
-// File: script.js
+// File: version-1/script.js
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         this.style.display = 'none';
         // Replace with a text logo fallback
         const textLogo = document.createElement('div');
-        textLogo.innerHTML = 'Your Logo';
+        textLogo.innerHTML = 'Aetherbloom';
         textLogo.style.fontWeight = 'bold';
         textLogo.style.fontSize = '20px';
         textLogo.style.color = 'var(--brand-primary)';
@@ -143,4 +143,265 @@ document.addEventListener('DOMContentLoaded', function() {
         attributes: true,
         attributeFilter: ['class']
     });
+
+    // Services section functionality
+    const serviceCards = document.querySelectorAll('.service-card');
+    const serviceMockups = document.querySelectorAll('.service-mockup');
+
+    // Handle service link clicks for future modal/detail view functionality
+    const serviceLinks = document.querySelectorAll('.service-link');
+    serviceLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the service type from the href
+            const serviceType = this.getAttribute('href').substring(1);
+            
+            // For now, just log the interaction - this can be extended for modals/detail pages
+            console.log(`Service clicked: ${serviceType}`);
+            
+            // Add a subtle feedback animation
+            this.style.transform = 'translateX(4px)';
+            setTimeout(() => {
+                this.style.transform = 'translateX(0)';
+            }, 150);
+            
+            // Future: Open modal or navigate to service detail page
+            // showServiceModal(serviceType);
+        });
+    });
+
+    // Intersection Observer for services section animations
+    const servicesSection = document.querySelector('.services-section');
+    if (servicesSection) {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const servicesObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add staggered animation to service cards
+                    const cards = entry.target.querySelectorAll('.service-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, index * 150);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        servicesObserver.observe(servicesSection);
+
+        // Initially hide cards for animation
+        serviceCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+    }
+
+    // Animation functions for reuse
+    const animationFunctions = {
+        // Typing effect for chat bubbles
+        typingEffect: (element, text, speed = 30) => {
+            // Clear any existing intervals
+            if (element.typingInterval) {
+                clearInterval(element.typingInterval);
+            }
+            
+            element.textContent = '';
+            let i = 0;
+            element.typingInterval = setInterval(() => {
+                element.textContent += text.charAt(i);
+                i++;
+                if (i >= text.length) {
+                    clearInterval(element.typingInterval);
+                    element.typingInterval = null;
+                }
+            }, speed);
+        },
+
+        // Progress bar animation
+        animateProgress: (progressElement) => {
+            progressElement.style.transition = 'none';
+            progressElement.style.width = '0%';
+            setTimeout(() => {
+                progressElement.style.transition = 'width 1.5s ease-in-out';
+                progressElement.style.width = '75%';
+            }, 50);
+        },
+
+        // Document processing animation
+        animateDocuments: (container) => {
+            const docStatuses = container.querySelectorAll('.doc-status');
+            docStatuses.forEach((status, index) => {
+                setTimeout(() => {
+                    if (status.classList.contains('processing')) {
+                        status.textContent = '✓';
+                        status.classList.remove('processing');
+                        status.classList.add('processed');
+                        setTimeout(() => {
+                            status.textContent = '⏳';
+                            status.classList.remove('processed');
+                            status.classList.add('processing');
+                        }, 1500);
+                    }
+                }, index * 300);
+            });
+        },
+
+        // Sales pipeline counter animation
+        animateSalesNumbers: (container) => {
+            const stageCounts = container.querySelectorAll('.stage-count');
+            stageCounts.forEach(count => {
+                const targetNumber = parseInt(count.textContent);
+                let currentNumber = 0;
+                count.textContent = '0';
+                
+                const countInterval = setInterval(() => {
+                    currentNumber += Math.ceil(targetNumber / 20);
+                    if (currentNumber >= targetNumber) {
+                        currentNumber = targetNumber;
+                        clearInterval(countInterval);
+                    }
+                    count.textContent = currentNumber;
+                }, 50);
+            });
+        }
+    };
+
+    // Enhanced mockup animations for better interactivity
+    serviceMockups.forEach(mockup => {
+        // Define keyframes if not already defined
+        if (!document.querySelector('#animation-keyframes')) {
+            const style = document.createElement('style');
+            style.id = 'animation-keyframes';
+            style.textContent = `
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.7; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    });
+
+    // Setup hover animations for each service card type
+    serviceCards.forEach(card => {
+        const mockup = card.querySelector('.service-mockup');
+        
+        // Enhanced hover effects with specific animations per card type
+        card.addEventListener('mouseenter', function() {
+            // General mockup hover effect
+            if (mockup) {
+                mockup.style.transform = 'scale(1.05) translateY(-2px)';
+                mockup.style.transition = 'transform 0.3s ease';
+            }
+
+            // Trigger specific animations based on card type
+            if (card.querySelector('.customer-support-mockup')) {
+                // Customer Support: Restart chat typing animation
+                const bubbles = card.querySelectorAll('.chat-bubble');
+                bubbles.forEach((bubble, index) => {
+                    const originalText = bubble.getAttribute('data-text') || bubble.textContent;
+                    bubble.setAttribute('data-text', originalText);
+                    setTimeout(() => {
+                        animationFunctions.typingEffect(bubble, originalText);
+                    }, index * 600);
+                });
+            }
+            
+            else if (card.querySelector('.technical-support-mockup')) {
+                // Technical Support: Restart progress bar animation
+                const progressFill = card.querySelector('.progress-fill');
+                if (progressFill) {
+                    animationFunctions.animateProgress(progressFill);
+                }
+                
+                // Add pulse to status indicator
+                const statusIndicator = card.querySelector('.status-indicator');
+                if (statusIndicator) {
+                    statusIndicator.style.animation = 'pulse 1s ease-in-out 3';
+                }
+            }
+            
+            else if (card.querySelector('.back-office-mockup')) {
+                // Back Office: Animate document processing
+                const mockupContent = card.querySelector('.mockup-content');
+                if (mockupContent) {
+                    animationFunctions.animateDocuments(mockupContent);
+                }
+            }
+            
+            else if (card.querySelector('.sales-support-mockup')) {
+                // Sales Support: Animate number counters
+                const mockupContent = card.querySelector('.mockup-content');
+                if (mockupContent) {
+                    animationFunctions.animateSalesNumbers(mockupContent);
+                }
+            }
+        });
+
+        card.addEventListener('mouseleave', function() {
+            // Reset mockup animation
+            if (mockup) {
+                mockup.style.transform = 'scale(1) translateY(0)';
+            }
+            
+            // Reset any pulsing animations
+            const statusIndicator = card.querySelector('.status-indicator');
+            if (statusIndicator) {
+                statusIndicator.style.animation = '';
+            }
+        });
+    });
+
+    // Initial scroll-triggered animations (keep existing functionality)
+    const progressFill = document.querySelector('.progress-fill');
+    if (progressFill) {
+        const progressObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => animationFunctions.animateProgress(progressFill), 500);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const technicalCard = progressFill.closest('.service-card');
+        if (technicalCard) {
+            progressObserver.observe(technicalCard);
+        }
+    }
+
+    // Initial chat bubble animation on scroll
+    const chatBubbles = document.querySelectorAll('.chat-bubble');
+    if (chatBubbles.length > 0) {
+        // Store original text for each bubble
+        chatBubbles.forEach(bubble => {
+            bubble.setAttribute('data-text', bubble.textContent);
+        });
+
+        const chatObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bubbles = entry.target.querySelectorAll('.chat-bubble');
+                    bubbles.forEach((bubble, index) => {
+                        const originalText = bubble.getAttribute('data-text');
+                        setTimeout(() => {
+                            animationFunctions.typingEffect(bubble, originalText);
+                        }, index * 1000);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const customerCard = chatBubbles[0].closest('.service-card');
+        if (customerCard) {
+            chatObserver.observe(customerCard);
+        }
+    }
 });

@@ -381,6 +381,307 @@ body {
     font-weight: 400;
 }
 
+/* Services Section Styles */
+.services-section {
+    background-color: var(--background-cream);
+    padding: 100px 24px;
+    position: relative;
+}
+
+.services-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.services-header {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.services-headline {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.services-subheadline {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 80px;
+    align-items: stretch;
+}
+
+.service-card {
+    background-color: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(201, 100, 66, 0.1);
+    /* Enhanced neumorphism effect */
+    box-shadow: 
+        12px 12px 24px rgba(0, 0, 0, 0.08),
+        -12px -12px 24px rgba(255, 255, 255, 0.9);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 480px;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 
+        16px 16px 32px rgba(0, 0, 0, 0.12),
+        -16px -16px 32px rgba(255, 255, 255, 1);
+}
+
+.service-content {
+    padding: 32px 28px 24px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.service-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.service-description {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--brand-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.service-link:hover {
+    color: var(--brand-primary-hover);
+}
+
+.service-arrow {
+    transition: transform 0.2s ease;
+}
+
+.service-link:hover .service-arrow {
+    transform: translateX(4px);
+}
+
+.service-image-container {
+    padding: 0 28px 32px 28px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.service-image-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(201, 100, 66, 0.1), rgba(232, 145, 95, 0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-mockup {
+    width: 90%;
+    max-width: 220px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover .service-mockup {
+    transform: scale(1.05);
+}
+
+.mockup-header {
+    background-color: var(--background-cream);
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(201, 100, 66, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mockup-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.mockup-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.mockup-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.mockup-content {
+    padding: 16px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Customer Support Mockup */
+.chat-bubble {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    max-width: 80%;
+    line-height: 1.4;
+}
+
+.chat-bubble.incoming {
+    background-color: rgba(201, 100, 66, 0.1);
+    color: var(--text-dark);
+    align-self: flex-start;
+}
+
+.chat-bubble.outgoing {
+    background-color: var(--brand-primary);
+    color: var(--white);
+    align-self: flex-end;
+}
+
+/* Technical Support Mockup */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-indicator.green {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(201, 100, 66, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 75%;
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-primary-light));
+    border-radius: 3px;
+}
+
+/* Back Office Mockup */
+.document-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    background-color: rgba(201, 100, 66, 0.05);
+    font-size: 0.75rem;
+}
+
+.doc-icon {
+    font-size: 0.9rem;
+}
+
+.doc-name {
+    flex: 1;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.doc-status.processed {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.doc-status.processing {
+    color: var(--brand-primary);
+}
+
+/* Sales Support Mockup */
+.pipeline-stage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: rgba(201, 100, 66, 0.05);
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+.stage-name {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.stage-count {
+    background-color: var(--brand-primary);
+    color: var(--white);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
     .navbar {
@@ -537,6 +838,70 @@ body {
     .why-feature-description {
         font-size: 0.95rem;
     }
+
+    /* Services mobile styles */
+    .services-section {
+        padding: 80px 20px;
+    }
+
+    .services-header {
+        margin-bottom: 60px;
+    }
+
+    .services-headline {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+
+    .services-subheadline {
+        font-size: 1.1rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        margin-top: 60px;
+    }
+
+    .service-card {
+        border-radius: 16px;
+        height: auto;
+        min-height: 460px;
+    }
+
+    .service-content {
+        padding: 24px 20px 20px 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-title {
+        font-size: 1.3rem;
+        margin-bottom: 14px;
+    }
+
+    .service-description {
+        font-size: 0.95rem;
+        margin-bottom: 18px;
+        flex: 1;
+    }
+
+    .service-image-container {
+        padding: 0 20px 24px 20px;
+        height: 180px;
+        flex-shrink: 0;
+    }
+
+    .service-mockup {
+        max-width: 200px;
+    }
+
+    .mockup-content {
+        padding: 12px;
+        min-height: 100px;
+        gap: 10px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -615,6 +980,56 @@ body {
 
     .why-feature-description {
         font-size: 0.9rem;
+    }
+
+    /* Services small mobile styles */
+    .services-section {
+        padding: 60px 16px;
+    }
+
+    .services-headline {
+        font-size: 1.9rem;
+    }
+
+    .services-subheadline {
+        font-size: 1rem;
+    }
+
+    .services-grid {
+        gap: 24px;
+        margin-top: 40px;
+    }
+
+    .service-card {
+        min-height: 420px;
+    }
+
+    .service-content {
+        padding: 20px 16px 16px 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-title {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .service-description {
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+        flex: 1;
+    }
+
+    .service-image-container {
+        padding: 0 16px 20px 16px;
+        height: 160px;
+        flex-shrink: 0;
+    }
+
+    .service-mockup {
+        max-width: 180px;
     }
 }
 
