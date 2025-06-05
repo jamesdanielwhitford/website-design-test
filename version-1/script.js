@@ -404,4 +404,367 @@ document.addEventListener('DOMContentLoaded', function() {
             chatObserver.observe(customerCard);
         }
     }
+
+    // ===== PRICING CALCULATOR FUNCTIONALITY =====
+    
+    // Calculator elements
+    const roleDropdown = document.getElementById('role');
+    const salaryInput = document.getElementById('salary');
+    const hoursInput = document.getElementById('hours');
+    const tierDropdown = document.getElementById('tier');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resultsSection = document.getElementById('calculatorResults');
+
+    // Results elements
+    const ukTotalCostEl = document.getElementById('ukTotalCost');
+    const aetherbloomCostEl = document.getElementById('aetherbloomCost');
+    const baseSalaryEl = document.getElementById('baseSalary');
+    const niPensionEl = document.getElementById('niPension');
+    const recruitmentEl = document.getElementById('recruitment');
+    const trainingEl = document.getElementById('training');
+    const tierNameEl = document.getElementById('tierName');
+    const totalSavingsEl = document.getElementById('totalSavings');
+    const savingsPercentageEl = document.getElementById('savingsPercentage');
+
+    // Auto-fill salary when a role is selected
+    if (roleDropdown && salaryInput) {
+        roleDropdown.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.dataset.salary) {
+                salaryInput.value = selectedOption.dataset.salary;
+                // Trigger input event to update any listeners
+                salaryInput.dispatchEvent(new Event('input'));
+            }
+        });
+    }
+
+    // Format currency function
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('en-GB', {
+            style: 'currency',
+            currency: 'GBP',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(amount);
+    }
+
+    // Animate number counting
+    function animateCountUp(element, targetValue, duration = 1000) {
+        const startValue = 0;
+        const startTime = performance.now();
+        
+        function updateCount(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function for smooth animation
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentValue = Math.floor(startValue + (targetValue - startValue) * easedProgress);
+            
+            element.textContent = formatCurrency(currentValue);
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateCount);
+            } else {
+                element.textContent = formatCurrency(targetValue);
+            }
+        }
+        
+        requestAnimationFrame(updateCount);
+    }
+
+    // Animate percentage counting
+    function animatePercentageUp(element, targetPercentage, duration = 1000) {
+        const startValue = 0;
+        const startTime = performance.now();
+        
+        function updateCount(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function for smooth animation
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentValue = startValue + (targetPercentage - startValue) * easedProgress;
+            
+            element.textContent = currentValue.toFixed(1) + '%';
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateCount);
+            } else {
+                element.textContent = targetPercentage.toFixed(1) + '%';
+            }
+        }
+        
+        requestAnimationFrame(updateCount);
+    }
+
+    // Calculate savings function
+    function calculateSavings() {
+        // Get input values
+        const salary = parseFloat(salaryInput.value);
+        const hours = parseFloat(hoursInput.value);
+        const tierOption = tierDropdown.selectedOptions[0];
+        const aetherbloomCost = parseFloat(tierOption.dataset.cost);
+        const tierName = tierOption.text;
+
+        // Validation
+        if (!salary || !hours || !aetherbloomCost) {
+            // Create and show error notification
+            showNotification('Please complete all fields before calculating.', 'error');
+            return;
+        }
+
+        if (salary < 15000 || salary > 200000) {
+            showNotification('Please enter a realistic salary between £15,000 and £200,000.', 'error');
+            return;
+        }
+
+        if (hours < 1 || hours > 60) {
+            showNotification('Please enter realistic hours between 1 and 60 per week.', 'error');
+            return;
+        }
+
+        // UK cost calculations (based on realistic UK business costs)
+        const niPension = salary * 0.138; // 13.8% NI + typical pension contributions
+        const recruitment = salary * 0.15; // 15% recruitment costs (agencies, advertising, time)
+        const training = salary * 0.05; // 5% training and development
+        const hrOverhead = salary * 0.10; // 10% HR management overhead
+        const fixedCosts = 5400; // £5,400 (office £3,600 + IT £1,200 + benefits £600)
+
+        const ukTotal = salary + niPension + recruitment + training + hrOverhead + fixedCosts;
+        const savings = ukTotal - aetherbloomCost;
+        const percentage = ((savings / ukTotal) * 100);
+
+        // Populate results with immediate values (for instant feedback)
+        baseSalaryEl.textContent = formatCurrency(salary);
+        niPensionEl.textContent = formatCurrency(niPension);
+        recruitmentEl.textContent = formatCurrency(recruitment);
+        trainingEl.textContent = formatCurrency(training);
+        tierNameEl.textContent = tierName;
+
+        // Show results section with animation
+        resultsSection.classList.add('show');
+        resultsSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+        });
+
+        // Animate the main values with a slight delay for dramatic effect
+        setTimeout(() => {
+            animateCountUp(ukTotalCostEl, ukTotal, 1200);
+            animateCountUp(aetherbloomCostEl, aetherbloomCost, 1200);
+            animateCountUp(totalSavingsEl, savings, 1500);
+            animatePercentageUp(savingsPercentageEl, percentage, 1500);
+        }, 300);
+
+        // Track analytics event (if analytics is available)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'calculator_usage', {
+                'event_category': 'engagement',
+                'event_label': tierName,
+                'value': Math.round(savings)
+            });
+        }
+    }
+
+    // Simple notification system
+    function showNotification(message, type = 'info') {
+        // Remove any existing notifications
+        const existingNotification = document.querySelector('.calculator-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `calculator-notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-icon">${type === 'error' ? '⚠️' : 'ℹ️'}</span>
+                <span class="notification-message">${message}</span>
+                <button class="notification-close">×</button>
+            </div>
+        `;
+
+        // Add styles if they don't exist
+        if (!document.querySelector('#notification-styles')) {
+            const style = document.createElement('style');
+            style.id = 'notification-styles';
+            style.textContent = `
+                .calculator-notification {
+                    position: fixed;
+                    top: 100px;
+                    right: 24px;
+                    background: var(--white);
+                    border-radius: 12px;
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+                    z-index: 1000;
+                    max-width: 400px;
+                    animation: slideInNotification 0.3s ease-out;
+                }
+                .notification-error {
+                    border-left: 4px solid #ef4444;
+                }
+                .notification-info {
+                    border-left: 4px solid var(--brand-primary);
+                }
+                .notification-content {
+                    display: flex;
+                    align-items: center;
+                    padding: 16px 20px;
+                    gap: 12px;
+                }
+                .notification-message {
+                    flex: 1;
+                    color: var(--text-dark);
+                    font-weight: 500;
+                }
+                .notification-close {
+                    background: none;
+                    border: none;
+                    font-size: 20px;
+                    cursor: pointer;
+                    color: var(--text-muted);
+                    padding: 0;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .notification-close:hover {
+                    color: var(--text-dark);
+                }
+                @keyframes slideInNotification {
+                    from {
+                        opacity: 0;
+                        transform: translateX(100%);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+                @media (max-width: 768px) {
+                    .calculator-notification {
+                        right: 16px;
+                        left: 16px;
+                        max-width: none;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Add to page
+        document.body.appendChild(notification);
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideInNotification 0.3s ease-out reverse';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 5000);
+
+        // Close button functionality
+        notification.querySelector('.notification-close').addEventListener('click', function() {
+            notification.style.animation = 'slideInNotification 0.3s ease-out reverse';
+            setTimeout(() => notification.remove(), 300);
+        });
+    }
+
+    // Bind calculate button
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', calculateSavings);
+    }
+
+    // Allow Enter key to trigger calculation
+    const calculatorInputs = [salaryInput, hoursInput];
+    calculatorInputs.forEach(input => {
+        if (input) {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateSavings();
+                }
+            });
+        }
+    });
+
+    // Add input validation and formatting
+    if (salaryInput) {
+        salaryInput.addEventListener('input', function() {
+            // Remove any non-numeric characters except commas and decimals
+            let value = this.value.replace(/[^\d.,]/g, '');
+            
+            // Remove extra commas and decimals
+            value = value.replace(/,+/g, ',').replace(/\.+/g, '.');
+            
+            this.value = value;
+        });
+
+        // Add placeholder animation on focus
+        salaryInput.addEventListener('focus', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+
+        salaryInput.addEventListener('blur', function() {
+            this.style.transform = 'scale(1)';
+            
+            // Format the number on blur
+            if (this.value) {
+                const numValue = parseFloat(this.value.replace(/,/g, ''));
+                if (!isNaN(numValue)) {
+                    this.value = numValue.toLocaleString('en-GB');
+                }
+            }
+        });
+    }
+
+    // Add similar formatting for hours input
+    if (hoursInput) {
+        hoursInput.addEventListener('input', function() {
+            // Only allow numbers
+            this.value = this.value.replace(/[^\d]/g, '');
+        });
+
+        hoursInput.addEventListener('focus', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+
+        hoursInput.addEventListener('blur', function() {
+            this.style.transform = 'scale(1)';
+        });
+    }
+
+    // Calculator section scroll animation
+    const calculatorSection = document.querySelector('.pricing-calculator-section');
+    if (calculatorSection) {
+        const calculatorObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const calculatorCard = entry.target.querySelector('.calculator-card');
+                    if (calculatorCard) {
+                        calculatorCard.style.opacity = '1';
+                        calculatorCard.style.transform = 'translateY(0)';
+                    }
+                }
+            });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        calculatorObserver.observe(calculatorSection);
+
+        // Initially hide calculator card for animation
+        const calculatorCard = calculatorSection.querySelector('.calculator-card');
+        if (calculatorCard) {
+            calculatorCard.style.opacity = '0';
+            calculatorCard.style.transform = 'translateY(30px)';
+            calculatorCard.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        }
+    }
+
+    // ===== END PRICING CALCULATOR FUNCTIONALITY =====
 });

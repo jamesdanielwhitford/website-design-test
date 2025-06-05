@@ -343,6 +343,140 @@
         </div>
     </section>
 
+    <section class="pricing-calculator-section" id="pricing">
+        <div class="calculator-container">
+            <div class="calculator-header">
+                <h2 class="calculator-headline">See your potential savings</h2>
+                <p class="calculator-subheadline">
+                    Discover exactly how much you could save annually by partnering with Aetherbloom. Calculate the true cost of UK hiring versus our transparent outsourcing solutions.
+                </p>
+            </div>
+
+            <div class="calculator-card">
+                <div class="calculator-form">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Role Details</h3>
+                        
+                        <div class="form-group">
+                            <label for="role" class="form-label">Select Role</label>
+                            <select id="role" class="form-input">
+                                <option value="">Choose a role</option>
+                                <option value="Customer Service Representative" data-salary="26000">Customer Service Representative (£26,000)</option>
+                                <option value="Admin Assistant" data-salary="25000">Admin Assistant (£25,000)</option>
+                                <option value="Technical Support Specialist" data-salary="32000">Technical Support Specialist (£32,000)</option>
+                                <option value="Data Analyst" data-salary="38000">Data Analyst (£38,000)</option>
+                                <option value="Bookkeeper" data-salary="30000">Bookkeeper (£30,000)</option>
+                                <option value="Sales Support Coordinator" data-salary="28000">Sales Support Coordinator (£28,000)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="salary" class="form-label">Annual Salary (£)</label>
+                            <input type="number" id="salary" class="form-input" placeholder="e.g. 28,000" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hours" class="form-label">Hours per Week</label>
+                            <input type="number" id="hours" class="form-input" placeholder="e.g. 40" value="40" />
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">Aetherbloom Solution</h3>
+                        
+                        <div class="form-group">
+                            <label for="tier" class="form-label">Select Service Tier</label>
+                            <select id="tier" class="form-input">
+                                <option value="essentials" data-cost="4320">Digital Essentials (20 hrs/month – £360/mo)</option>
+                                <option value="growth" data-cost="6000">Digital Growth (30 hrs/month – £500/mo)</option>
+                                <option value="enterprise" data-cost="8760">Digital Enterprise (50 hrs/month – £730/mo)</option>
+                                <option value="engagement" data-cost="19200">Call Centre Engagement (40 hrs/week – £1,600/mo)</option>
+                                <option value="sales" data-cost="60000">Sales Accelerator (3 agents – £5,000/mo)</option>
+                            </select>
+                        </div>
+
+                        <button id="calculateBtn" class="calculator-btn">
+                            Calculate Your Savings
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="calculatorResults" class="calculator-results">
+                    <div class="results-header">
+                        <div class="results-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2v20"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <h3 class="results-title">Your Annual Savings Breakdown</h3>
+                    </div>
+                    
+                    <div class="results-comparison">
+                        <div class="cost-breakdown uk-cost">
+                            <h4 class="cost-title">UK Employee Total Cost</h4>
+                            <div class="cost-amount" id="ukTotalCost">£0</div>
+                            <div class="cost-details">
+                                <div class="cost-item">
+                                    <span>Base Salary</span>
+                                    <span id="baseSalary">£0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>NI & Pension (13%)</span>
+                                    <span id="niPension">£0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Recruitment (15%)</span>
+                                    <span id="recruitment">£0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Training & Development</span>
+                                    <span id="training">£0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Office, IT & Benefits</span>
+                                    <span>£5,400</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vs-divider">
+                            <span>VS</span>
+                        </div>
+
+                        <div class="cost-breakdown aetherbloom-cost">
+                            <h4 class="cost-title">Aetherbloom Solution</h4>
+                            <div class="cost-amount" id="aetherbloomCost">£0</div>
+                            <div class="tier-details">
+                                <span id="tierName">Service Tier</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="savings-summary">
+                        <div class="savings-amount">
+                            <span class="savings-label">Total Annual Savings</span>
+                            <span class="savings-value" id="totalSavings">£0</span>
+                        </div>
+                        <div class="savings-percentage">
+                            <span class="percentage-value" id="savingsPercentage">0%</span>
+                            <span class="percentage-label">reduction in costs</span>
+                        </div>
+                    </div>
+
+                    <div class="results-cta">
+                        <a href="#strategy-session" class="btn btn-primary">
+                            Claim Your Free Strategy Session
+                            <span class="btn-arrow">→</span>
+                        </a>
+                        <p class="cta-note">Start saving within 72 hours with our rapid deployment process</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script src="script.js"></script>
 </body>
 </html>
