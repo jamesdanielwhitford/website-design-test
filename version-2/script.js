@@ -1,4 +1,4 @@
-// File: navbar-script.js
+// File: version-2/script.js
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         this.style.display = 'none';
         // Replace with a text logo fallback
         const textLogo = document.createElement('div');
-        textLogo.innerHTML = 'LOGO';
+        textLogo.innerHTML = 'AETHERBLOOM';
         textLogo.style.fontWeight = '800';
         textLogo.style.fontSize = '18px';
         textLogo.style.color = 'var(--brand-primary)';
@@ -151,6 +151,113 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Hero section functionality
+    const heroCalculatorBtn = document.getElementById('heroCalculatorBtn');
+    const heroSecondaryBtn = document.querySelector('.btn-hero-secondary');
+    
+    if (heroCalculatorBtn) {
+        // Add click animation
+        heroCalculatorBtn.addEventListener('click', function() {
+            // Add a subtle click animation
+            this.style.transform = 'translateY(-1px) scale(0.98)';
+            
+            setTimeout(() => {
+                this.style.transform = 'translateY(-3px) scale(1)';
+            }, 150);
+            
+            // Here you would typically open a calculator modal or navigate to calculator page
+            console.log('Opening cost calculator...');
+            
+            // For demo purposes, you can add a simple alert or modal
+            showCalculatorModal();
+        });
+
+        // Enhanced hover effects for hero button
+        heroCalculatorBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 15px 40px rgba(45, 74, 62, 0.5)';
+        });
+
+        heroCalculatorBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(-3px)';
+            this.style.boxShadow = '0 8px 25px rgba(45, 74, 62, 0.3)';
+        });
+    }
+
+    // Secondary button hover effects
+    if (heroSecondaryBtn) {
+        heroSecondaryBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 12px 30px rgba(242, 196, 168, 0.4)';
+        });
+
+        heroSecondaryBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0px)';
+            this.style.boxShadow = 'none';
+        });
+    }
+
+    // Simple calculator modal function (placeholder)
+    function showCalculatorModal() {
+        // This is a simple placeholder - in a real implementation you'd create a proper modal
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        `;
+
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        `;
+
+        modalContent.innerHTML = `
+            <h3 style="margin-bottom: 20px; color: var(--text-dark);">Cost Calculator</h3>
+            <p style="margin-bottom: 30px; color: var(--text-medium);">
+                Calculate your potential savings with Aetherbloom's BPO solutions.
+            </p>
+            <button onclick="this.parentElement.parentElement.remove()" 
+                    style="background: var(--brand-primary); color: white; border: none; 
+                           padding: 12px 24px; border-radius: 6px; cursor: pointer;">
+                Coming Soon - Close
+            </button>
+        `;
+
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+
+        // Add fade in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
     // Add active state management for navigation
     function updateActiveNavigation() {
         const sections = document.querySelectorAll('section[id]');
@@ -180,4 +287,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize navigation state
     updateActiveNavigation();
+
+    // Intersection Observer for animations (if you want to add scroll animations later)
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements for scroll animations (you can add this class to elements you want to animate)
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
 });
