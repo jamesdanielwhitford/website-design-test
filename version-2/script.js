@@ -258,6 +258,48 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(style);
     }
 
+    // Why Aetherbloom Feature Interaction
+    const featureTags = document.querySelectorAll('.feature-tag');
+    const detailCards = document.querySelectorAll('.detail-card');
+
+    function switchFeature(targetFeature) {
+        // Remove active class from all tags and cards immediately
+        featureTags.forEach(tag => tag.classList.remove('active'));
+        detailCards.forEach(card => card.classList.remove('active'));
+
+        // Add active class to selected tag
+        const activeTag = document.querySelector(`[data-feature="${targetFeature}"]`);
+        if (activeTag) {
+            activeTag.classList.add('active');
+        }
+
+        // Add active class to corresponding detail card immediately
+        const activeCard = document.getElementById(`detail-${targetFeature}`);
+        if (activeCard) {
+            activeCard.classList.add('active');
+        }
+    }
+
+    // Add hover handlers to feature tags
+    featureTags.forEach(tag => {
+        tag.addEventListener('mouseenter', function() {
+            const featureType = this.getAttribute('data-feature');
+            switchFeature(featureType);
+        });
+
+        // Add keyboard accessibility
+        tag.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const featureType = this.getAttribute('data-feature');
+                switchFeature(featureType);
+            }
+        });
+
+        // Make tags focusable for keyboard navigation
+        tag.setAttribute('tabindex', '0');
+    });
+
     // Add active state management for navigation
     function updateActiveNavigation() {
         const sections = document.querySelectorAll('section[id]');

@@ -385,6 +385,146 @@ body {
     border-radius: 50%;
 }
 
+/* Why Aetherbloom Section */
+.why-aetherbloom {
+    padding: 120px 32px;
+    background-color: var(--background-white);
+    position: relative;
+}
+
+.why-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.why-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.why-left {
+    position: relative;
+}
+
+.why-right {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.why-header {
+    margin-bottom: 0;
+}
+
+.why-title {
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: var(--text-dark);
+}
+
+.why-title-accent {
+    color: var(--brand-primary);
+    font-style: italic;
+}
+
+.why-subtitle {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--text-medium);
+    max-width: 500px;
+}
+
+.why-features {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.features-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.feature-tag {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: #f8f9fa;
+    border: 2px solid var(--border-light);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--text-medium);
+    white-space: nowrap;
+    min-height: 56px;
+}
+
+.feature-tag:hover {
+    background-color: var(--brand-primary-lighter);
+    border-color: var(--brand-primary-light);
+    color: var(--brand-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(201, 100, 66, 0.15);
+}
+
+.feature-tag.active {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(201, 100, 66, 0.25);
+}
+
+.feature-details {
+    position: relative;
+    min-height: 300px;
+}
+
+.detail-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    background-color: #fafbfc;
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: left;
+}
+
+.detail-card.active {
+    opacity: 1;
+    transform: translateY(0);
+    position: relative;
+}
+
+.detail-card h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.detail-card p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-medium);
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
     .navbar {
@@ -524,6 +664,78 @@ body {
         align-items: flex-start;
         gap: 12px;
     }
+
+    /* Why Aetherbloom Mobile Styles */
+    .why-aetherbloom {
+        padding: 80px 20px;
+    }
+
+    .why-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .why-layout {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .why-left {
+        order: 2;
+    }
+
+    .why-right {
+        order: 1;
+        text-align: left;
+    }
+
+    .why-header {
+        margin-bottom: 0;
+    }
+
+    .why-title {
+        font-size: 2.4rem;
+        margin-bottom: 20px;
+    }
+
+    .why-subtitle {
+        font-size: 1.1rem;
+        max-width: none;
+    }
+
+    .why-features {
+        margin-top: 40px;
+        order: 3;
+    }
+
+    .features-row {
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .feature-tag {
+        padding: 12px 20px;
+        font-size: 14px;
+        min-height: 48px;
+    }
+
+    .feature-details {
+        min-height: 300px;
+    }
+
+    .detail-card {
+        padding: 30px 20px;
+    }
+
+    .detail-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+
+    .detail-card p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
 }
 
 @media (max-width: 480px) {
@@ -576,6 +788,52 @@ body {
 
     .btn-text {
         font-size: 16px;
+    }
+
+    /* Why Aetherbloom Extra Small Mobile */
+    .why-aetherbloom {
+        padding: 60px 16px;
+    }
+
+    .why-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .why-features {
+        margin-top: 30px;
+    }
+
+    .why-title {
+        font-size: 2rem;
+    }
+
+    .why-subtitle {
+        font-size: 1rem;
+    }
+
+    .features-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .feature-tag {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+
+    .detail-card {
+        padding: 24px 16px;
+    }
+
+    .detail-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .detail-card p {
+        font-size: 0.95rem;
     }
 }
 
